@@ -1,0 +1,448 @@
+<!doctype html> 
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BrawlHub — Inicio</title>
+  <meta name="description" content="Página temática de Brawl Stars: personajes, modos, noticias y comunidad." />
+  <style>
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; border: none; }
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #f5f5f5;
+    }
+
+    :root {
+      --card: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.15);
+      --accent: linear-gradient(90deg, #ffcc66, #ff9966);
+      --accent-solid: #ffcc66;
+      --maxW: 1100px;
+    }
+
+    .container {
+      max-width: var(--maxW);
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* ======== HEADER ======== */
+    header {
+      background: rgba(0,0,0,0.6);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      box-shadow: 0 0 10px rgba(255,204,102,0.5);
+    }
+
+    .site-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #ffcc66;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+    }
+
+    nav a {
+      color: #f5f5f5;
+      text-decoration: none;
+      padding: 8px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      border-bottom: 2px solid #ffcc66;
+      color: #ffcc66;
+    }
+
+    .cta {
+      background: var(--accent);
+      padding: 8px 14px;
+      border-radius: 25px;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .cta:hover { opacity: 0.9; }
+
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      color: #fff;
+      font-size: 1.5rem;
+    }
+
+    /* ======== CONTENIDO ======== */
+    main h1, main h2, main h3 {
+      color: #ffcc66;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      margin-bottom: 25px;
+    }
+
+    .muted {
+      color: #bbb;
+      line-height: 1.6;
+    }
+
+    .pill {
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      color: #f5f5f5;
+      font-weight: 500;
+      border: 1px solid transparent;
+      transition: 0.3s;
+    }
+
+    .pill:hover {
+      border-color: #ffcc66;
+      color: #ffcc66;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .hero-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .showcase {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .brawler-card {
+      background: rgba(255,255,255,0.05);
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--border);
+    }
+
+    /* ==== NUEVO: IMÁGENES DE BRAWLERS ==== */
+    .brawler-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ffcc66, #ff9966);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .brawler-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    main .grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 18px;
+    }
+
+    .mode {
+      padding: 12px;
+      background: rgba(255,255,255,0.05);
+      border-left: 4px solid #ffcc66;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .gallery video {
+    width: 100%;
+    height: 400px;          
+    object-fit: contain;      
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    }
+
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #aaa;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.5);
+      margin-top: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      main .grid { grid-template-columns: 1fr; }
+      nav ul { display: none; }
+      .menu-toggle { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">BH</div>
+        <div>
+          <div class="site-name">BrawlHub</div>
+          <div style="font-size:.8rem;color:#ccc;">Noticias, personajes y comunidad</div>
+        </div>
+      </div>
+
+      <nav>
+        <button class="menu-toggle" aria-expanded="false">☰</button>
+        <ul>
+          <li><a href="index.html" class="active">Inicio</a></li>
+          <li><a href="paginas/brawl.html">Brawlers</a></li>
+          <li><a href="paginas/modos.html">Modos</a></li>
+          <li><a href="paginas/comunidad.html">Comunidad</a></li>
+        </ul>
+      </nav>
+
+      <a class="cta" href="https://play.google.com/store/apps/details?id=com.supercell.brawlstars&hl=es_MX">Descargar</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-card">
+        <h1>BrawlHub: Todo sobre Brawl Stars</h1>
+        <p class="muted">Guía rápida de brawlers, modos, eventos y noticias para la comunidad. Encuentra fichas, estadísticas y contenido para mejorar tu juego.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <span class="pill">Último evento: Pase de batalla</span>
+          <span class="pill">Balance 10.98</span>
+          <span class="pill">Consejos de estreno</span>
+        </div>
+      </div>
+
+      <aside class="showcase">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <strong>Brawler destacado</strong>
+          <span class="pill">Top</span>
+        </div>  
+        <div class="brawler-card">
+          <div class="brawler-img">
+            <img src="img/mina.png" alt="Mina">
+          </div>
+          <div>
+            <div style="font-weight:bold;color:#ffcc66;">Mina</div>
+            <div style="color:#ccc;font-size:.9rem">Tipo: Destructor • Rareza: Mitica</div>
+            <div style="margin-top:8px"><small style="color:#bbb;">Daño: 800 • Vida: 4100</small></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Brawlers</h2>
+        <p class="muted">Explora las fichas de los personajes, sus habilidades y consejos.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:12px">
+
+          <article class="card">
+            <div style="display:flex;gap:10px;align-items:center">
+              <div class="brawler-img">
+                <img src="img/spike.png" alt="Spike">
+              </div>
+              <div>
+                <strong style="color:#ffcc66;">Spike</strong>
+                <div style="color:#ccc;font-size:.85rem">Asedio y control de área</div>
+              </div>
+            </div>
+            <p class="muted" style="margin-top:10px;">Consejos: aprovechá su super para controlar zonas estrechas y obligar a los enemigos a retroceder.</p>
+          </article>
+
+          <article class="card">
+            <div style="display:flex;gap:10px;align-items:center">
+              <div class="brawler-img">
+                <img src="img/Primo.png" alt="El Primo">
+              </div>
+              <div>
+                <strong style="color:#ffcc66;">El Primo</strong>
+                <div style="color:#ccc;font-size:.85rem">Luchador cuerpo a cuerpo</div>
+              </div>
+            </div>
+            <p class="muted" style="margin-top:10px;">Consejos: usa el super para iniciar combates y aislar objetivos débiles.</p>
+          </article>
+
+          <article class="card">
+            <div style="display:flex;gap:10px;align-items:center">
+              <div class="brawler-img">
+                <img src="img/Mortis.png" alt="Mortis">
+              </div>
+              <div>
+                <strong style="color:#ffcc66;">Mortis</strong>
+                <div style="color:#ccc;font-size:.85rem">Asesino</div>
+              </div>
+            </div>
+            <p class="muted" style="margin-top:10px;">Consejos: Presiona a los brawls lanzadores y no te choques con los muros no uses auto puntado </p>
+          </article>
+
+          <article class="card">
+            <div style="display:flex;gap:10px;align-items:center">
+              <div class="brawler-img">
+                <img src="img/buzzLightyear.png" alt="Mortis">
+              </div>
+              <div>
+                <strong style="color:#ffcc66;">Buzz Lightyear</strong>
+                <div style="color:#ccc;font-size:.85rem">Control,Asesino</div>
+              </div>
+            </div>
+            <p class="muted" style="margin-top:10px;"> Te recordaremos  </p>
+          </article>
+        </div>
+
+        <article class="card">
+            <div style="display:flex;gap:10px;align-items:center">
+              <div class="brawler-img">
+                <img src="img/kaze.png" alt="Mortis">
+              </div>
+              <div>
+                <strong style="color:#ffcc66;">kaze</strong>
+                <div style="color:#ccc;font-size:.85rem">Asesino</div>
+              </div>
+            </div>
+            <p class="muted" style="margin-top:10px;">Consejos: Usa el modo ninja para atacar y tener mas distancia y el modo geisha para escapar y tener mayor control</p>
+          </article>
+
+        <div style="margin-top:14px;display:flex;justify-content:center">
+          <a class="cta" href="paginas/brawl.html">Ver todos los brawlers</a>
+        </div>
+      </section>
+
+      <aside>
+        <div class="card">
+          <h3>Modos populares</h3>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;">
+            <div class="mode"><strong>Atraco</strong><div style="color:#ccc;">Rico y estratégico</div></div>
+            <div class="mode"><strong>Balón Brawl</strong><div style="color:#ccc;">Juega en equipo</div></div>
+            <div class="mode"><strong>Supervivencia</strong><div style="color:#ccc;">Solo o dúo</div></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3>Estadísticas</h3>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <div class="mode"><div style="font-weight:bold;color:#ffcc66;">120k</div><div style="color:#ccc;">Jugadores activos</div></div>
+            <div class="mode"><div style="font-weight:bold;color:#ffcc66;">35</div><div style="color:#ccc;">Brawlers</div></div>
+            <div class="mode"><div style="font-weight:bold;color:#ffcc66;">8</div><div style="color:#ccc;">Mapas nuevos</div></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="card">
+      <h2>Galería y clips</h2>
+      <div class="gallery" style="margin-top:10px">
+        <video src="Videos/BUZZ.mp4" controls></video>
+        <video src="Videos/Gordo.mp4" controls></video>
+        <video src="Videos/KAZE.mp4" controls></video>
+        <video src="Videos/Yo Quiero Un Heroe.mp4" controls></video>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Comunidad</h2>
+      <p class="muted">Enlaces a foros, Discord y contenido de creadores. Comparte tus partidas y estrategias.</p>
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <a class="pill" href="https://www.reddit.com/r/Brawlstars/">Reddit</a>
+        <a class="pill" href="https://www.youtube.com/brawlstars">YouTube</a>
+        <a class="pill" href="https://www.twitch.tv/directory/category/brawl-stars?lang=es-mx">Twitch</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>  
+    © 2025 BrawlHub • Hecho con 💛 por fans de Brawl Stars
+  </footer>
+
+  <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const navUL = document.querySelector('nav ul');
+    toggle?.addEventListener('click', ()=>{
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      navUL.style.display = navUL.style.display === 'flex' ? '' : 'flex';
+      navUL.style.flexDirection = 'column';
+      navUL.style.gap = '10px';
+      navUL.style.background = 'rgba(0,0,0,0.8)';
+      navUL.style.padding = '10px';
+      navUL.style.borderRadius = '10px';
+    });
+  </script>
+</body>
+</html>

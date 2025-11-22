@@ -1,0 +1,322 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BrawlHub — Modos de Juego</title>
+  <meta name="description" content="Guía y consejos para los distintos modos de juego de Brawl Stars." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; border: none; }
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #f5f5f5;
+    }
+
+    :root {
+      --card: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.15);
+      --accent: linear-gradient(90deg, #ffcc66, #ff9966);
+      --accent-solid: #ffcc66;
+      --maxW: 1100px;
+    }
+
+    .container {
+      max-width: var(--maxW);
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background: rgba(0,0,0,0.6);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      box-shadow: 0 0 10px rgba(255,204,102,0.5);
+    }
+
+    .site-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #ffcc66;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+    }
+
+    nav a {
+      color: #f5f5f5;
+      text-decoration: none;
+      padding: 8px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      border-bottom: 2px solid #ffcc66;
+      color: #ffcc66;
+    }
+
+    .cta {
+      background: var(--accent);
+      padding: 8px 14px;
+      border-radius: 25px;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .cta:hover { opacity: 0.9; }
+
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      color: #fff;
+      font-size: 1.5rem;
+    }
+
+    main h2 {
+      font-size: 1.8rem;
+      color: #ffcc66;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      color: #ffcc66;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      margin-bottom: 25px;
+    }
+
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .mode-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      transition: 0.3s;
+    }
+
+    .mode-item:hover {
+      transform: translateY(-4px);
+      border-color: #ffcc66;
+      box-shadow: 0 4px 15px rgba(255,204,102,0.3);
+    }
+
+    .mode-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 10px rgba(255,204,102,0.4);
+      overflow: hidden;
+    }
+
+    .mode-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .mode-type {
+      color: #ffcc66;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid var(--border);
+      color: #ffcc66;
+      font-weight: bold;
+      margin-top: 8px;
+      font-size: 0.85rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #aaa;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.5);
+      margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .menu-toggle { display: block; }
+      .modes-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">BH</div>
+        <div>
+          <div class="site-name">BrawlHub</div>
+          <div style="font-size:.8rem;color:#ccc;">Modos, estrategias y consejos</div>
+        </div>
+      </div>
+
+      <nav>
+        <button class="menu-toggle" aria-expanded="false">☰</button>
+        <ul>
+          <li><a href="../index.html">Inicio</a></li>
+          <li><a href="brawl.html">Brawlers</a></li>
+          <li><a href="modos.html" class="active">Modos</a></li>
+          <li><a href="comunidad.html">Comunidad</a></li>
+        </ul>
+      </nav>
+
+      <a class="cta" href="https://play.google.com/store/apps/details?id=com.supercell.brawlstars&hl=es_MX">Descargar</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Guía de Modos de Juego</h2>
+      <p>Aprende las reglas, objetivos y estrategias clave para dominar cada uno de los modos de Brawl Stars.</p>
+
+      <div class="modes-grid">
+        <div class="mode-item">
+          <div class="mode-icon"><img src="../img/atrapa.png" alt="Icono Atrapagemas"></div>
+          <div class="mode-type">3v3 Clásico</div>
+          <h3>Atrapagemas</h3>
+          <p>Recolecta y mantiene 10 gemas hasta que el contador termine. ¡La coordinación es la clave!</p>
+          <span class="tag">Rol clave: Control</span>
+        </div>
+
+        <div class="mode-item">
+          <div class="mode-icon"><img src="../img/balon.png" alt="Icono Balón Brawl"></div>
+          <div class="mode-type">3v3 Deportivo</div>
+          <h3>Balón Brawl</h3>
+          <p>Partido de fútbol 3v3 donde el primer equipo en marcar dos goles gana. ¡No hay reglas!</p>
+          <span class="tag">Rol clave: Delantero</span>
+        </div>
+
+        <div class="mode-item">
+          <div class="mode-icon"><img src="../img/super.png" alt="Icono Supervivencia"></div>
+          <div class="mode-type">Battle Royale</div>
+          <h3>Supervivencia</h3>
+          <p>Sobrevive a 10 jugadores solo o en dúo. Rompe cajas para ganar poder y evita la tormenta.</p>
+          <span class="tag">Rol clave: Sigilo y Farmeo</span>
+        </div>
+
+        <div class="mode-item">
+          <div class="mode-icon"><img src="../img/atra.png" alt="Icono Atraco"></div>
+          <div class="mode-type">3v3 Estratégico</div>
+          <h3>Atraco</h3>
+          <p>Destruye la caja fuerte del enemigo antes que destruyan la tuya. ¡Mucho daño directo!</p>
+          <span class="tag">Rol clave: Daño a estructura</span>
+        </div>
+
+        <div class="mode-item">
+          <div class="mode-icon"><img src="../img/deuelos.png" alt="Icono Duelos"></div>
+          <div class="mode-type">1v1 Eliminación</div>
+          <h3>Duelos</h3>
+          <p>Elige tres brawlers y derrota a los tres del rival en combates 1v1 consecutivos.</p>
+          <span class="tag">Rol clave: Habilidad individual</span>
+        </div>
+
+        <div class="mode-item">
+          <div class="mode-icon"><img src="../img/caza.png" alt="Icono Caza Estelar"></div>
+          <div class="mode-type">Eventos Rotativos</div>
+          <h3>Caza Estelar</h3>
+          <p>Gana estrellas derrotando a los oponentes. El equipo con más estrellas al final gana.</p>
+          <span class="tag">Rol clave: Asesinato</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Rotación de Mapas</h3>
+      <p>Cada modo cambia de mapa cada 24 horas. ¡Asegúrate de revisar los mejores brawlers para cada mapa!</p>
+      <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+        <span class="tag">Mapa: Campo Abierto</span>
+        <span class="tag">Mapa: Cañón Circular</span>
+        <span class="tag">Sugerencia de Brawler</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 BrawlHub • Hecho con 💛 por fans de Brawl Stars
+  </footer>
+
+  <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const navUL = document.querySelector('nav ul');
+    toggle?.addEventListener('click', ()=>{
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      navUL.style.display = navUL.style.display === 'flex' ? '' : 'flex';
+      navUL.style.flexDirection = 'column';
+      navUL.style.gap = '10px';
+      navUL.style.background = 'rgba(0,0,0,0.8)';
+      navUL.style.padding = '10px';
+      navUL.style.borderRadius = '10px';
+    });
+  </script>
+</body>
+</html>

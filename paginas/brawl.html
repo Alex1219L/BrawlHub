@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BrawlHub — Brawlers</title>
+  <meta name="description" content="Lista completa de Brawlers de Brawl Stars — información, rareza y clases." />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; border: none; }
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #f5f5f5;
+    }
+
+    :root {
+      --card: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.15);
+      --accent: linear-gradient(90deg, #ffcc66, #ff9966);
+      --accent-solid: #ffcc66;
+      --maxW: 1100px;
+    }
+
+    .container {
+      max-width: var(--maxW);
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background: rgba(0,0,0,0.6);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      box-shadow: 0 0 10px rgba(255,204,102,0.5);
+    }
+
+    .site-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #ffcc66;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+    }
+
+    nav a {
+      color: #f5f5f5;
+      text-decoration: none;
+      padding: 8px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      border-bottom: 2px solid #ffcc66;
+      color: #ffcc66;
+    }
+
+    .cta {
+      background: var(--accent);
+      padding: 8px 14px;
+      border-radius: 25px;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .cta:hover { opacity: 0.9; }
+
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      color: #fff;
+      font-size: 1.5rem;
+    }
+
+    main h2 {
+      font-size: 1.8rem;
+      color: #ffcc66;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      margin-bottom: 25px;
+    }
+
+    .muted {
+      color: #bbb;
+      line-height: 1.6;
+    }
+
+    .controls {
+      margin-top:20px;
+      display:flex;
+      gap:15px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .search-bar {
+      padding: 10px 15px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      width: 100%;
+      max-width: 300px;
+      margin-right: 10px;
+      transition: box-shadow .15s;
+    }
+
+    .search-bar:focus { box-shadow: 0 0 0 4px rgba(255,204,102,0.08); }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      padding: 8px 14px;
+      border-radius: 25px;
+      background: rgba(255,255,255,0.06);
+      color: #f5f5f5;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.18s;
+      border: 1px solid transparent;
+      user-select: none;
+    }
+
+    .filter-pill:hover { border-color: #ffcc66; color: #ffcc66; }
+    .filter-pill.active { background: var(--accent); color: #000; font-weight:700; }
+
+    .brawlers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .brawler-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+      color: #fff;
+      padding: 10px;
+      transition: transform 0.18s, box-shadow 0.18s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 210px;
+      justify-content: flex-start;
+      position: relative;
+    }
+
+    .brawler-item:hover {
+      transform: translateY(-6px);
+      border-color: #ffcc66;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      z-index: 100; 
+    }
+
+    .brawler-avatar {
+      width: 100%;
+      height: 120px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2b2b3a, #413b5a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+
+    .brawler-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    .brawler-name {
+      font-weight: 700;
+      color: #ffcc66;
+      margin-top: 4px;
+      font-size: 0.98rem;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.12);
+      margin-bottom: 8px;
+      width: calc(100% - 16px);
+    }
+
+    .brawler-rarity {
+      margin-top: 0px;
+      padding: 6px 10px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      display:inline-block;
+      margin-bottom: 6px;
+    }
+
+    /* COLORES DE RAREZA */
+    .rare-Común { background: #ffffff; color: #000; }
+    .rare-Especial { background: #3cff73; color: #003300; }
+    .rare-Superespecial { background: #001f5b; color: #fff; }
+    .rare-Épico { background: #8000ff; color: #fff; }
+    .rare-Mítico { background: #ff0000; color: #fff; }
+    .rare-Legendario { background: #ffd700; color: #000; }
+    .rare-Ultralegendario {
+      background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+      background-size: 200%;
+      color: #000;
+      animation: ultra 3s linear infinite;
+    }
+    @keyframes ultra {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .brawler-tooltip {
+      position: absolute;
+      top: -20px; 
+      left: calc(100% + 10px);
+      z-index: 200; 
+      width: 280px;
+      background: rgba(15, 12, 41, 0.98); 
+      border: 2px solid #ffcc66;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+      pointer-events: none; 
+
+      
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    
+    .brawler-item:hover .brawler-tooltip {
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    .brawler-item.tooltip-swap .brawler-tooltip {
+      left: auto;
+      right: calc(100% + 10px);
+    }
+
+    .tooltip-title {
+      color: #ffcc66;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      border-bottom: 1px dashed rgba(255, 204, 102, 0.3);
+      padding-bottom: 5px;
+    }
+
+    .tooltip-spec {
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      color: #bbb;
+    }
+
+    .tooltip-spec strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+
+   
+    @media (max-width: 900px) {
+      .brawler-tooltip {
+          display: none !important;
+      }
+    }
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .menu-toggle { display: block; }
+      .brawlers-grid { grid-template-columns: repeat(auto-fill,minmax(130px,1fr)); }
+      .search-bar { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">BH</div>
+        <div>
+          <div class="site-name">BrawlHub</div>
+          <div style="font-size:.8rem;color:#ccc;">Brawlers y estrategias</div>
+        </div>
+      </div>
+
+      <nav>
+        <button class="menu-toggle" aria-expanded="false">☰</button>
+        <ul>
+          <li><a href="../index.html">Inicio</a></li>
+          <li><a href="brawl.html" class="active">Brawlers</a></li>
+          <li><a href="modos.html">Modos</a></li>
+          <li><a href="comunidad.html">Comunidad</a></li>
+        </ul>
+      </nav>
+
+      <a class="cta" href="https://play.google.com/store/apps/details?id=com.supercell.brawlstars&hl=es_MX">Descargar</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="card">
+      <h2>Todos los Brawlers</h2>
+      <p class="muted">Explora la lista completa de Brawlers filtrada por rareza. Pasa el mouse sobre una tarjeta para ver sus especificaciones.</p>
+
+      <div class="controls">
+        <input id="searchInput" type="text" placeholder="Buscar Brawler..." class="search-bar" />
+        <div id="filters" class="filters" aria-label="Filtros por rareza">
+          </div>
+      </div>
+
+      <div id="brawlersGrid" class="brawlers-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="card">
+      <h3 style="color:#ffcc66;">¿Cómo se clasifican los Brawlers?</h3>
+      <p class="muted">Los personajes se clasifican por <strong>Rareza</strong> y puedes filtrarlos con las píldoras de arriba.</p>
+      <div style="margin-top:10px;">
+        <span class="tag">Rareza: Legendario</span>
+        <span class="tag">Clase: (visible en el tooltip al pasar el mouse)</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2025 BrawlHub • Hecho con 💛 por fans de Brawl Stars
+  </footer>
+
+  <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const navUL = document.querySelector('nav ul');
+    toggle?.addEventListener('click', ()=> {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      navUL.style.display = navUL.style.display === 'flex' ? '' : 'flex';
+      navUL.style.flexDirection = 'column';
+      navUL.style.gap = '10px';
+      navUL.style.background = 'rgba(0,0,0,0.8)';
+      navUL.style.padding = '10px';
+      navUL.style.borderRadius = '10px';
+    });
+
+    /* ===== DATA: brawlers (con todos los datos completos) ===== */
+   let brawlers = [
+        { nombre: "Shelly", rareza: "Común", especialidad: "Luchadora", resumen: "Ataque de escopeta de corto alcance. Fuerte a corta distancia, ideal para emboscadas." },
+        { nombre: "Nita", rareza: "Especial", especialidad: "Luchadora", resumen: "Lanza ondas de choque. Su Súper invoca a su oso, 'Bruce', para tanquear y atacar." },
+        { nombre: "Colt", rareza: "Especial", especialidad: "Francotirador", resumen: "Dispara largas ráfagas de balas. Su Súper destruye obstáculos y tiene gran alcance." },
+        { nombre: "Bull", rareza: "Especial", especialidad: "Peso Pesado", resumen: "Escopeta de corto alcance. Su Súper lo hace cargar destrozando muros, excelente para iniciar o escapar." },
+        { nombre: "Brock", rareza: "Especial", especialidad: "Francotirador", resumen: "Lanza cohetes de largo alcance. Su Súper es una lluvia de cohetes que cubre una amplia área." },
+        { nombre: "El Primo", rareza: "Especial", especialidad: "Peso Pesado", resumen: "Peleador cuerpo a cuerpo con altos PV. Salta muy lejos con su Súper, perfecto para saltar muros." },
+        { nombre: "Poco", rareza: "Especial", especialidad: "Apoyo", resumen: "Curandero que ataca con ondas de música. Su Súper cura a los aliados y a sí mismo a través de muros." },
+        { nombre: "Barley", rareza: "Especial", especialidad: "Lanzador", resumen: "Lanza botellas que dejan charcos de daño por tiempo. Excelente para denegar áreas." },
+        { nombre: "Rosa", rareza: "Especial", especialidad: "Peso Pesado", resumen: "Boxeadora de ataque rápido. Su Súper le da un potente escudo de vegetación, ideal para tanquear." },
+
+        { nombre: "Jessie", rareza: "Superespecial", especialidad: "Luchadora", resumen: "Dispara orbes de energía rebotantes. Su torreta Scrappy es un apoyo defensivo/ofensivo fijo." },
+        { nombre: "Dynamike", rareza: "Superespecial", especialidad: "Lanzador", resumen: "Lanza dinamita por encima de los muros. Su Súper es un gran barril explosivo con amplio daño." },
+        { nombre: "Tick", rareza: "Superespecial", especialidad: "Lanzador", resumen: "Lanza minas que explotan después de un tiempo. Su cabeza es un misil buscador teledirigido." },
+        { nombre: "8-Bit", rareza: "Superespecial", especialidad: "Francotirador", resumen: "Máquina recreativa con mucho daño. Su torreta de potenciación aumenta el daño de los aliados." },
+        { nombre: "Rico", rareza: "Superespecial", especialidad: "Francotirador", resumen: "Sus balas rebotan en las paredes, permitiendo atacar enemigos detrás de obstáculos." },
+        { nombre: "Darryl", rareza: "Superespecial", especialidad: "Peso Pesado", resumen: "Rueda automáticamente con su Súper y es fuerte en el cuerpo a cuerpo." },
+        { nombre: "Penny", rareza: "Superespecial", especialidad: "Francotirador", resumen: "Su ataque principal explota y lanza metralla detrás del objetivo. Su mortero ataca a distancia." },
+        { nombre: "Carl", rareza: "Superespecial", especialidad: "Luchador", resumen: "Lanza un pico en forma de boomerang. Su Súper lo hace girar rápidamente causando daño a su alrededor." },
+        { nombre: "Jacky", rareza: "Superespecial", especialidad: "Peso Pesado", resumen: "Utiliza un taladro de área para dañar enemigos cercanos. Su Súper atrae a los oponentes." },
+        { nombre: "Gus", rareza: "Superespecial", especialidad: "Apoyo", resumen: "Lanza globos que invocan un fantasma curativo o un escudo para un aliado." },
+
+        { nombre: "Bo", rareza: "Épico", especialidad: "Francotirador", resumen: "Dispara flechas. Su Súper oculta minas explosivas que aturden a los enemigos." },
+        { nombre: "Emz", rareza: "Épico", especialidad: "Luchadora", resumen: "Rocía laca para el cabello que daña continuamente a los enemigos dentro de su cono de ataque." },
+        { nombre: "Stu", rareza: "Épico", especialidad: "Asesino", resumen: "Su Súper se carga con solo un golpe, permitiéndole deslizarse rápidamente y dejar un rastro de fuego." },
+        { nombre: "Piper", rareza: "Épico", especialidad: "Francotirador", resumen: "Dispara balas que infligen más daño cuanto mayor es la distancia recorrida. Su Súper le permite saltar lejos." },
+        { nombre: "Pam", rareza: "Épico", especialidad: "Apoyo", resumen: "Dispara una ráfaga ancha de tuercas y tornillos. Su torreta de curación ayuda al equipo." },
+        { nombre: "Frank", rareza: "Épico", especialidad: "Peso Pesado", resumen: "Golpea el suelo con un martillo gigante en un cono. Su Súper aturde a todos los enemigos a su alrededor." },
+        { nombre: "Bibi", rareza: "Épico", especialidad: "Luchadora", resumen: "Usa un bate de béisbol con un ataque cargado para empujar a los enemigos." },
+        { nombre: "Bea", rareza: "Épico", especialidad: "Francotirador", resumen: "Dispara abejas, siendo el segundo disparo supercargado y muy potente." },
+        { nombre: "Nani", rareza: "Épico", especialidad: "Francotirador", resumen: "Dispara tres orbes que convergen en un punto. Su Súper es un dron controlable, 'Peep'." },
+        { nombre: "Edgar", rareza: "Épico", especialidad: "Asesino", resumen: "Se cura con sus ataques básicos. Su Súper salta sobre los enemigos. Se carga automáticamente." },
+        { nombre: "Griff", rareza: "Épico", especialidad: "Luchador", resumen: "Lanza tres oleadas de monedas. Su Súper lanza billetes que regresan, haciendo daño doble." },
+        { nombre: "Grom", rareza: "Épico", especialidad: "Lanzador", resumen: "Lanza un explosivo en forma de 'X' que explota al impactar. Su Súper es una granada de área." },
+        { nombre: "Bonnie", rareza: "Épico", especialidad: "Luchadora", resumen: "Alterna entre una forma lenta de largo alcance (cañón) y una forma rápida de corto alcance (brawler)." },
+        { nombre: "Gale", rareza: "Épico", especialidad: "Apoyo", resumen: "Dispara ráfagas anchas de nieve. Su Súper es un potente chorro de viento que empuja a los enemigos." },
+        { nombre: "Colette", rareza: "Épico", especialidad: "Luchadora", resumen: "Inflige daño basado en el porcentaje de vida restante del objetivo. Su Súper carga y regresa a su posición inicial." },
+        { nombre: "Belle", rareza: "Épico", especialidad: "Francotirador", resumen: "Su disparo principal rebota entre enemigos. Su Súper marca a un objetivo para que reciba más daño." },
+        { nombre: "Ash", rareza: "Épico", especialidad: "Peso Pesado", resumen: "Se carga con rabia al recibir o infligir daño. Su Súper invoca pequeños robots limpiadores." },
+        { nombre: "Lola", rareza: "Épico", especialidad: "Luchadora", resumen: "Dispara una ráfaga de estrellas. Su Súper invoca un clon de sí misma que imita sus acciones." },
+        { nombre: "Sam", rareza: "Épico", especialidad: "Peso Pesado", resumen: "Lucha con sus guantes de poder. Puede lanzar y recuperar sus guantes para recargar su Súper." },
+        { nombre: "Mandy", rareza: "Épico", especialidad: "Francotirador", resumen: "Dispara caramelos, que se vuelven más fuertes y rápidos mientras está inmóvil." },
+        { nombre: "Maisie", rareza: "Épico", especialidad: "Francotirador", resumen: "Dispara proyectiles que ganan velocidad al viajar. Su Súper empuja a los enemigos y causa daño." },
+        { nombre: "Hank", rareza: "Épico", especialidad: "Peso Pesado", resumen: "Hincha un globo de burbujas para atacar. El tiempo de carga determina el daño." },
+        { nombre: "Pearl", rareza: "Épico", especialidad: "Luchadora", resumen: "Su ataque se potencia con el calor acumulado. El Súper es una gran explosión de enfriamiento." },
+        { nombre: "Larry & Lawrie", rareza: "Épico", especialidad: "Lanzador", resumen: "Larry lanza granadas. Lawrie es su gemelo que lucha a su lado al activar el Súper." },
+        { nombre: "Angelo", rareza: "Épico", especialidad: "Francotirador", resumen: "Dispara flechas que se cargan. Su Súper crea un charco que envenena a los enemigos." },
+        { nombre: "Berry", rareza: "Épico", especialidad: "Lanzador", resumen: "Lanza frutas explosivas que rebotan. Su Súper le permite curar a sus aliados con bayas." },
+        { nombre: "Shade", rareza: "Épico", especialidad: "Asesino", resumen: "Se mueve rápido y es experto en emboscadas. Utiliza la oscuridad para volverse invisible brevemente." },
+        { nombre: "Meeple", rareza: "Épico", especialidad: "Luchador", resumen: "Lucha junto a su compañero robótico. Su Súper fusiona a ambos para obtener más poder." },
+        { nombre: "Trunk", rareza: "Épico", especialidad: "Peso Pesado", resumen: "Utiliza un tronco gigante como arma que golpea en un amplio arco." }, 
+
+        { nombre: "Mortis", rareza: "Mítico", especialidad: "Asesino", resumen: "Se desliza por el mapa con su pala. Ideal para eliminar brawlers de baja vida rápidamente." },
+        { nombre: "Tara", rareza: "Mítico", especialidad: "Luchadora", resumen: "Lanza tres cartas. Su Súper crea un agujero negro que junta a los enemigos para un ataque en área." },
+        { nombre: "Genio", rareza: "Mítico", especialidad: "Apoyo", resumen: "Lanza una bola de energía que se divide. Su Súper es una mano mágica que atrae a un enemigo." },
+        { nombre: "Max", rareza: "Mítico", especialidad: "Apoyo", resumen: "Dispara ráfagas rápidas. Su Súper aumenta la velocidad de movimiento de todos los aliados cercanos." },
+        { nombre: "MrP", rareza: "Mítico", especialidad: "Lanzador", resumen: "Lanza maletas que rebotan y hacen daño al caer y rebotar. Su Súper invoca pingüinos atacantes." },
+        { nombre: "Sprout", rareza: "Mítico", especialidad: "Lanzador", resumen: "Lanza semillas que rebotan. Su Súper crea un muro de setos para bloquear caminos." },
+        { nombre: "Byron", rareza: "Mítico", especialidad: "Apoyo", resumen: "Sus disparos básicos curan a aliados y dañan a enemigos. Su Súper lanza un elixir curativo y dañino." },
+        { nombre: "Squeak", rareza: "Mítico", especialidad: "Lanzador", resumen: "Lanza baba pegajosa que se adhiere y explota después de un retraso." },
+        { nombre: "Lou", rareza: "Mítico", especialidad: "Apoyo", resumen: "Lanza conos de nieve que acumulan congelación. Su Súper crea un parche de hielo que hace resbalar a los enemigos." },
+        { nombre: "Ruffs", rareza: "Mítico", especialidad: "Apoyo", resumen: "Dispara dos láseres rebotantes. Su Súper es un paquete de ayuda que otorga potenciadores de vida y daño." },
+        { nombre: "Buzz", rareza: "Mítico", especialidad: "Asesino", resumen: "Su Súper se carga al estar cerca de los enemigos. Lanza un salvavidas que lo arrastra hacia el objetivo." },
+        { nombre: "Fang", rareza: "Mítico", especialidad: "Asesino", resumen: "Patea palomitas de maíz. Su Súper lo hace saltar entre enemigos con gran rapidez." },
+        { nombre: "Eve", rareza: "Mítico", especialidad: "Lanzadora", resumen: "Lanza huevos que se dividen en mini-criaturas. Puede flotar sobre el agua." },
+        { nombre: "Janet", rareza: "Mítico", especialidad: "Luchadora", resumen: "Dispara ondas de sonido de largo alcance. Su Súper le permite volar libremente y soltar bombas." },
+        { nombre: "Otis", rareza: "Mítico", especialidad: "Luchador", resumen: "Dispara estrellas de pintura. Su Súper silencia al enemigo, impidiendo que ataque o use sus habilidades." },
+        { nombre: "Buster", rareza: "Mítico", especialidad: "Peso Pesado", resumen: "Tiene un cono de ataque frontal de corto alcance. Su Súper crea un escudo reflectante." },
+        { nombre: "Gray", rareza: "Mítico", especialidad: "Apoyo", resumen: "Puede crear portales que transportan a él y a sus aliados a otra ubicación." },
+        { nombre: "R-T", rareza: "Mítico", especialidad: "Francotirador", resumen: "Dispara un rayo que se divide en dos al impactar. Su Súper divide su cuerpo en dos entidades." },
+        { nombre: "Willow", rareza: "Mítico", especialidad: "Lanzadora", resumen: "Lanza proyectiles que hacen daño en el tiempo. Su Súper le permite tomar el control de un enemigo por un tiempo limitado." },
+        { nombre: "Doug", rareza: "Mítico", especialidad: "Apoyo", resumen: "Tiene un aura de curación y puede revivir a aliados con su Súper." },
+        { nombre: "Chuck", rareza: "Mítico", especialidad: "Asesino", resumen: "Coloca postes de tren y se desliza entre ellos con su Súper, causando daño al pasar." },
+        { nombre: "Charlie", rareza: "Mítico", especialidad: "Luchadora", resumen: "Lanza un yo-yo que regresa. Su Súper envuelve a los enemigos en un capullo inmovilizador." },
+        { nombre: "Mico", rareza: "Mítico", especialidad: "Asesino", resumen: "Salta a corta distancia con sus básicos. Su Súper lo eleva por el aire, haciéndolo inmune al daño." },
+        { nombre: "Melodie", rareza: "Mítico", especialidad: "Luchadora", resumen: "Lanza notas musicales que orbitan a su alrededor. Puede usar su Súper para teletransportarse." },
+        { nombre: "Lily", rareza: "Mítico", especialidad: "Asesina", resumen: "Apuñala con su flor. Puede teletransportarse detrás de los enemigos con su Súper." },
+        { nombre: "Clancy", rareza: "Mítico", especialidad: "Lanzador", resumen: "Un lanzador de largo alcance que usa objetos pesados. Su Súper es una gran trampa." },
+        { nombre: "Moe", rareza: "Mítico", especialidad: "Apoyo", resumen: "Se enfoca en debilitar a los enemigos para que su equipo los remate." },
+        { nombre: "Juju", rareza: "Mítico", especialidad: "Luchador", resumen: "Utiliza un arma de medio alcance con un Súper de defensa activa." },
+        { nombre: "Ollie", rareza: "Mítico", especialidad: "Asesino", resumen: "Se especializa en emboscadas desde las sombras, con gran movilidad." },
+        { nombre: "Lumi", rareza: "Mítico", especialidad: "Francotirador", resumen: "Un francotirador con habilidades de visión a través de obstáculos." },
+        { nombre: "Finx", rareza: "Mítico", especialidad: "Peso Pesado", resumen: "Un brawler defensivo con habilidades para ralentizar a los atacantes." },
+        { nombre: "Jae-Yong", rareza: "Mítico", especialidad: "Luchador", resumen: "Utiliza un estilo de combate basado en combos de golpes cuerpo a cuerpo." },
+        { nombre: "Alli", rareza: "Mítico", especialidad: "Apoyo", resumen: "Su enfoque es aumentar la velocidad de ataque y recarga de sus compañeros." },
+        { nombre: "Mina", rareza: "Mítico", especialidad: "Lanzadora", resumen: "Lanza minas que se adhieren y explotan solo cuando el enemigo se mueve cerca." },
+        { nombre: "Ziggy", rareza: "Mítico", especialidad: "Luchador", resumen: "Se especializa en ataques que rebotan para limpiar grupos de enemigos." },
+        { nombre: "Gigi", rareza: "Mítico", especialidad: "Asesina", resumen: "Una brawler rápida que inflige daño por veneno con sus ataques básicos." },
+
+        { nombre: "Spike", rareza: "Legendario", especialidad: "Francotirador", resumen: "Lanza un cactus que explota, dispersando espinas en varias direcciones. Su Súper ralentiza y daña con púas." },
+        { nombre: "Crow", rareza: "Legendario", especialidad: "Asesino", resumen: "Lanza dagas envenenadas que infligen daño por tiempo. Su Súper lo hace saltar y caer con una lluvia de dagas." },
+        { nombre: "Leon", rareza: "Legendario", especialidad: "Asesino", resumen: "Lanza cuchillas giratorias. Su Súper lo hace invisible por un corto tiempo, perfecto para emboscadas." },
+        { nombre: "Sandy", rareza: "Legendario", especialidad: "Apoyo", resumen: "Lanza arena. Su Súper invoca una tormenta de arena que oculta a los aliados en su área." },
+        { nombre: "Amber", rareza: "Legendario", especialidad: "Luchadora", resumen: "Dispara un flujo constante de llamas. Su Súper lanza un charco de aceite que puede prender fuego." },
+        { nombre: "Meg", rareza: "Legendario", especialidad: "Peso Pesado", resumen: "Lucha principalmente en un frágil traje robótico, pero su Súper la transforma en un poderoso meca." },
+        { nombre: "Surge", rareza: "Legendario", especialidad: "Luchador", resumen: "Se potencia y evoluciona con cada uso de su Súper, mejorando su velocidad y rango de ataque." },
+        { nombre: "Chester", rareza: "Legendario", especialidad: "Luchador", resumen: "Su Súper cambia aleatoriamente entre varias habilidades explosivas o de apoyo." },
+        { nombre: "Cordelius", rareza: "Legendario", especialidad: "Asesino", resumen: "Dispara hongos. Su Súper transporta a sí mismo y a un enemigo a una 'Dimensión Sombra' para un duelo." },
+        { nombre: "Kit", rareza: "Legendario", especialidad: "Asesino", resumen: "Un gato que puede saltar sobre otros brawlers y aferrarse a ellos para atacar o curar." },
+        { nombre: "Draco", rareza: "Legendario", especialidad: "Peso Pesado", resumen: "Monta un dragón, su Súper inflige gran daño en un área amplia." },
+        { nombre: "Kenji", rareza: "Legendario", especialidad: "Asesino", resumen: "Utiliza habilidades ninja de alta velocidad y ataques precisos." },
+        { nombre: "Buzz Lightyear", rareza: "Legendario", especialidad: "Apoyo", resumen: "Un brawler de evento con habilidades únicas de control de masas." }, 
+
+        { nombre: "Kaze", rareza: "Ultralegendario", especialidad: "Especialista", resumen: "Posee habilidades que combinan elementos de varios tipos de brawlers, siendo muy versátil." },
+    ];
+
+
+    const rarezaMap = {
+      'comun': 'Común', 'común': 'Común',
+      'especial': 'Especial',
+      'superespecial': 'Superespecial', 'super especial': 'Superespecial',
+      'epico': 'Épico', 'épico': 'Épico',
+      'mitico': 'Mítico', 'mítico': 'Mítico', 'mítico ': 'Mítico',
+      'legendario': 'Legendario',
+      'ultralegendario': 'Ultralegendario', 'ultra legendario': 'Ultralegendario'
+    };
+
+    function normalizeRareza(r){
+      const key = (r||'').toString().trim().toLowerCase();
+      return rarezaMap[key] || r;
+    }
+
+    (function normalizeAndDeduplicate(){
+      const seen = new Map();
+      const result = [];
+      for (const b of brawlers) {
+        const nombre = (b.nombre || '').toString().trim();
+        if (!nombre) continue;
+        const key = nombre.toLowerCase();
+        if (seen.has(key)) {
+          const prev = seen.get(key);
+          if (!prev.rareza && b.rareza) prev.rareza = normalizeRareza(b.rareza);
+          continue;
+        }
+        const item = {
+          nombre: nombre,
+          rareza: normalizeRareza(b.rareza || 'Común'),
+          especialidad: b.especialidad || 'Desconocida', 
+          resumen: b.resumen || 'Información no disponible.'
+        };
+        seen.set(key, item);
+        result.push(item);
+      }
+      brawlers = result;
+    })();
+
+    function normalizeToFilename(name){
+      const mapAccents = { 'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U','ñ':'n','Ñ':'N' };
+      let s = name.split('').map(ch => mapAccents[ch] || ch).join('');
+      s = s.replace(/[^0-9A-Za-z\s]/g, ' '); 
+      const parts = s.trim().split(/\s+/).filter(Boolean);
+      const joined = parts.map(p => p.charAt(0).toUpperCase()+p.slice(1)).join('');
+      return `../img/${joined}.png`;
+    }
+
+    function getUniqueRarities(list){
+      const set = new Set(list.map(b => b.rareza));
+      const order = ["Común","Especial","Superespecial","Épico","Mítico","Legendario","Ultralegendario"];
+      const rarities = Array.from(set);
+      rarities.sort((a,b)=>{
+        const ia = order.indexOf(a) === -1 ? 999 : order.indexOf(a);
+        const ib = order.indexOf(b) === -1 ? 999 : order.indexOf(b);
+        return ia - ib;
+      });
+      return ['Todos', ...rarities];
+    }
+
+    // RENDER
+    const filtersContainer = document.getElementById('filters');
+    const grid = document.getElementById('brawlersGrid');
+    const searchInput = document.getElementById('searchInput');
+
+    let activeFilter = 'Todos';
+    let searchTerm = '';
+
+    function renderFilterPills(){
+      filtersContainer.innerHTML = '';
+      const rarities = getUniqueRarities(brawlers);
+      rarities.forEach(r => {
+        const span = document.createElement('span');
+        span.className = 'filter-pill' + (r === activeFilter ? ' active' : '');
+        span.textContent = r;
+        span.dataset.rarity = r;
+        span.addEventListener('click', ()=> {
+          activeFilter = r;
+          renderFilterPills();
+          renderGrid();
+        });
+        filtersContainer.appendChild(span);
+      });
+    }
+
+    function renderGrid(){
+      grid.innerHTML = '';
+      const term = searchTerm.trim().toLowerCase();
+
+      const filtered = brawlers.filter(b => {
+        if(activeFilter !== 'Todos' && b.rareza !== activeFilter) return false;
+        if(term && !b.nombre.toLowerCase().includes(term)) return false;
+        return true;
+      });
+
+      if(filtered.length === 0){
+        grid.innerHTML = `<div style="color:#ccc;padding:20px">No se encontraron brawlers.</div>`;
+        return;
+      }
+      
+      // Cálculo dinámico de columnas para voltear el tooltip
+      const containerWidth = grid.offsetWidth;
+      const estimatedItemWidth = 176; 
+      const columnCount = Math.floor(containerWidth / estimatedItemWidth);
+      
+      // Número de columnas desde el borde derecho que deben voltear el tooltip
+      // Usamos 2 o 3 para asegurar que haya espacio en la izquierda.
+      const swapColumns = Math.min(3, Math.max(1, Math.ceil(columnCount / 3)));
+
+      filtered.forEach((b, index) => {
+        const imgPath = normalizeToFilename(b.nombre);
+        const card = document.createElement('div');
+        card.className = 'brawler-item';
+
+        // Lógica para voltear el tooltip (si está en las últimas 'swapColumns')
+        if (columnCount > 1 && (columnCount - (index % columnCount) <= swapColumns)) {
+            card.classList.add('tooltip-swap');
+        }
+
+        // Estructura del Brawler y el Tooltip (activado por CSS :hover)
+        card.innerHTML = `
+          <div class="brawler-avatar" aria-hidden="true">
+            <img src="${imgPath}" alt="${b.nombre}" 
+              onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22120%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%232b2b3a%22 rx=%2212%22/></svg>'" />
+          </div>
+
+          <div class="brawler-name" aria-label="Nombre del brawler">${b.nombre}</div>
+
+          <div class="brawler-rarity rare-${b.rareza.replace(/\s+/g,'')}" aria-label="Rareza">
+            ${b.rareza}
+          </div>
+
+          <div class="brawler-tooltip">
+            <div class="tooltip-title">${b.nombre}</div>
+            <p class="tooltip-spec"><strong>Rareza:</strong> ${b.rareza}</p>
+            <p class="tooltip-spec"><strong>Especialidad:</strong> ${b.especialidad}</p>
+            <hr style="border:0;border-top:1px dashed rgba(255,255,255,0.2);margin:8px 0;">
+            <p style="font-size:0.85rem;line-height:1.4;color:#ccc;">${b.resumen}</p>
+          </div>
+        `;
+
+        // efecto click pequeño (opcional)
+        card.addEventListener('click', ()=> {
+          card.style.transform = 'scale(0.99)';
+          setTimeout(()=> card.style.transform = '',120);
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    // BUSQUEDA por NOMBRE
+    searchInput.addEventListener('input', e => {
+      searchTerm = e.target.value;
+      renderGrid();
+    });
+    
+    // RE-RENDERIZAR en cambio de tamaño de pantalla (para ajustar columnas)
+    window.addEventListener('resize', renderGrid);
+
+
+    // Inicializar
+    renderFilterPills();
+    renderGrid();
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BrawlHub — Brawlers</title>
+  <meta name="description" content="Lista completa de Brawlers de Brawl Stars — información, rareza y clases." />
+  <style>
+    /* ======== BASE ======== */
+    * { box-sizing: border-box; margin: 0; padding: 0; border: none; }
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #f5f5f5;
+    }
+
+    :root {
+      --card: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.15);
+      --accent: linear-gradient(90deg, #ffcc66, #ff9966);
+      --accent-solid: #ffcc66;
+      --maxW: 1100px;
+    }
+
+    .container {
+      max-width: var(--maxW);
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* ======== HEADER ======== */
+    header {
+      background: rgba(0,0,0,0.6);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      box-shadow: 0 0 10px rgba(255,204,102,0.5);
+    }
+
+    .site-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #ffcc66;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+    }
+
+    nav a {
+      color: #f5f5f5;
+      text-decoration: none;
+      padding: 8px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      border-bottom: 2px solid #ffcc66;
+      color: #ffcc66;
+    }
+
+    .cta {
+      background: var(--accent);
+      padding: 8px 14px;
+      border-radius: 25px;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .cta:hover { opacity: 0.9; }
+
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      color: #fff;
+      font-size: 1.5rem;
+    }
+
+    /* ======== CONTENIDO ======== */
+    main h2 {
+      font-size: 1.8rem;
+      color: #ffcc66;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      margin-bottom: 25px;
+    }
+
+    .muted {
+      color: #bbb;
+      line-height: 1.6;
+    }
+
+    /* ======== BARRA DE BÚSQUEDA Y FILTROS ======== */
+    .controls {
+      margin-top:20px;
+      display:flex;
+      gap:15px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .search-bar {
+      padding: 10px 15px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      width: 100%;
+      max-width: 300px;
+      margin-right: 10px;
+      transition: box-shadow .15s;
+    }
+
+    .search-bar:focus { box-shadow: 0 0 0 4px rgba(255,204,102,0.08); }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      padding: 8px 14px;
+      border-radius: 25px;
+      background: rgba(255,255,255,0.06);
+      color: #f5f5f5;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.18s;
+      border: 1px solid transparent;
+      user-select: none;
+    }
+
+    .filter-pill:hover { border-color: #ffcc66; color: #ffcc66; }
+    .filter-pill.active { background: var(--accent); color: #000; font-weight:700; }
+
+    /* ======== GRID DE BRAWLERS ======== */
+    .brawlers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .brawler-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+      color: #fff;
+      padding: 10px;
+      transition: transform 0.18s, box-shadow 0.18s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 210px;
+      justify-content: flex-start;
+    }
+
+    .brawler-item:hover {
+      transform: translateY(-6px);
+      border-color: #ffcc66;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+
+    .brawler-avatar {
+      width: 100%;
+      height: 120px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2b2b3a, #413b5a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+
+    .brawler-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    .brawler-name {
+      font-weight: 700;
+      color: #ffcc66;
+      margin-top: 4px;
+      font-size: 0.98rem;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+      /* asegurar separación y legibilidad */
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.12);
+      margin-bottom: 8px;
+      width: calc(100% - 16px);
+    }
+
+    .brawler-rarity {
+      margin-top: 0px;
+      padding: 6px 10px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      display:inline-block;
+      margin-bottom: 6px;
+    }
+
+    /* COLORES DE RAREZA solicitados */
+    .rare-Común { background: #ffffff; color: #000; }
+    .rare-Especial { background: #3cff73; color: #003300; }
+    .rare-Superespecial { background: #001f5b; color: #fff; } /* azul marino */
+    .rare-Épico { background: #8000ff; color: #fff; } /* morado */
+    .rare-Mítico { background: #ff0000; color: #fff; } /* rojo */
+    .rare-Legendario { background: #ffd700; color: #000; } /* amarillo */
+    .rare-Ultralegendario {
+      background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+      background-size: 200%;
+      color: #000;
+      animation: ultra 3s linear infinite;
+    }
+    @keyframes ultra {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* small responsive tweaks */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .menu-toggle { display: block; }
+      .brawlers-grid { grid-template-columns: repeat(auto-fill,minmax(130px,1fr)); }
+      .search-bar { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">BH</div>
+        <div>
+          <div class="site-name">BrawlHub</div>
+          <div style="font-size:.8rem;color:#ccc;">Brawlers y estrategias</div>
+        </div>
+      </div>
+
+      <nav>
+        <button class="menu-toggle" aria-expanded="false">☰</button>
+        <ul>
+          <li><a href="../index.html">Inicio</a></li>
+          <li><a href="brawl.html" class="active">Brawlers</a></li>
+          <li><a href="modos.html">Modos</a></li>
+          <li><a href="comunidad.html">Comunidad</a></li>
+        </ul>
+      </nav>
+
+      <a class="cta" href="https://play.google.com/store/apps/details?id=com.supercell.brawlstars&hl=es_MX">Descargar</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- SECCIÓN ORIGINAL (ahora dinámica) -->
+    <section class="card">
+      <h2>Todos los Brawlers</h2>
+      <p class="muted">Explora la lista completa de Brawlers filtrada por rareza. Busca por nombre y haz clic en una tarjeta para el detalle (opcional).</p>
+
+      <div class="controls">
+        <input id="searchInput" type="text" placeholder="Buscar Brawler..." class="search-bar" />
+        <div id="filters" class="filters" aria-label="Filtros por rareza">
+          <!-- Las píldoras de rareza se generan aquí -->
+        </div>
+      </div>
+
+      <!-- GRID DE BRAWLERS (se llenará en JS) -->
+      <div id="brawlersGrid" class="brawlers-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="card">
+      <h3 style="color:#ffcc66;">¿Cómo se clasifican los Brawlers?</h3>
+      <p class="muted">Los personajes se clasifican por <strong>Rareza</strong> y puedes filtrarlos con las píldoras de arriba.</p>
+      <div style="margin-top:10px;">
+        <span class="tag">Rareza: Legendario</span>
+        <span class="tag">Clase: (oculta en esta vista)</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2025 BrawlHub • Hecho con 💛 por fans de Brawl Stars
+  </footer>
+
+  <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const navUL = document.querySelector('nav ul');
+    toggle?.addEventListener('click', ()=> {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      navUL.style.display = navUL.style.display === 'flex' ? '' : 'flex';
+      navUL.style.flexDirection = 'column';
+      navUL.style.gap = '10px';
+      navUL.style.background = 'rgba(0,0,0,0.8)';
+      navUL.style.padding = '10px';
+      navUL.style.borderRadius = '10px';
+    });
+
+    /* ===== DATA: brawlers (base) =====
+       Puedes completar/editar la lista. Cada objeto tiene:
+       - nombre (mostrado)
+       - rareza (filtro)
+       (la propiedad tipo se mantiene internamente si la necesitas, pero NO se muestra)
+    */
+   let brawlers = [
+  { nombre: "Shelly", rareza: "Común" },
+  { nombre: "Nita", rareza: "Especial" },
+  { nombre: "Colt", rareza: "Especial" },
+  { nombre: "Bull", rareza: "Especial" },
+  { nombre: "Brock", rareza: "Especial" },
+  { nombre: "El Primo", rareza: "Especial" },
+  { nombre: "Poco", rareza: "Especial" },
+  { nombre: "Barley", rareza: "Especial" },
+  { nombre: "Rosa", rareza: "Especial" },
+
+  { nombre: "Jessie", rareza: "Superespecial" },
+  { nombre: "Dynamike", rareza: "Superespecial" },
+  { nombre: "Tick", rareza: "Superespecial" },
+  { nombre: "8-Bit", rareza: "Superespecial" },
+  { nombre: "Rico", rareza: "Superespecial" },
+  { nombre: "Darryl", rareza: "Superespecial" },
+  { nombre: "Penny", rareza: "Superespecial" },
+  { nombre: "Carl", rareza: "Superespecial" },
+  { nombre: "Jacky", rareza: "Superespecial" },
+  { nombre: "Gus", rareza: "Superespecial" },
+
+  { nombre: "Bo", rareza: "Épico" },
+  { nombre: "Emz", rareza: "Épico" },
+  { nombre: "Stu", rareza: "Épico" },
+  { nombre: "Piper", rareza: "Épico" },
+  { nombre: "Pam", rareza: "Épico" },
+  { nombre: "Frank", rareza: "Épico" },
+  { nombre: "Bibi", rareza: "Épico" },
+  { nombre: "Bea", rareza: "Épico" },
+  { nombre: "Nani", rareza: "Épico" },
+  { nombre: "Edgar", rareza: "Épico" },
+  { nombre: "Griff", rareza: "Épico" },
+  { nombre: "Grom", rareza: "Épico" },
+  { nombre: "Bonnie", rareza: "Épico" },
+  { nombre: "Gale", rareza: "Épico" },
+  { nombre: "Colette", rareza: "Épico" },
+  { nombre: "Belle", rareza: "Épico" },
+  { nombre: "Ash", rareza: "Épico" },
+  { nombre: "Lola", rareza: "Épico" },
+  { nombre: "Sam", rareza: "Épico" },
+  { nombre: "Mandy", rareza: "Épico" },
+  { nombre: "Maisie", rareza: "Épico" },
+  { nombre: "Hank", rareza: "Épico" },
+  { nombre: "Pearl", rareza: "Épico" },
+  { nombre: "Larry & Lawrie", rareza: "Épico" },
+  { nombre: "Angelo", rareza: "Épico" },
+  { nombre: "Berry", rareza: "Épico" },
+  { nombre: "Shade", rareza: "Épico" },
+  { nombre: "Meeple", rareza: "Épico" },
+  { nombre: "Trunk", rareza: "Épico" }, 
+
+  { nombre: "Mortis", rareza: "Mítico" },
+  { nombre: "Tara", rareza: "Mítico" },
+  { nombre: "Genio", rareza: "Mítico" },
+  { nombre: "Max", rareza: "Mítico" },
+  { nombre: "MrP", rareza: "Mítico" },
+  { nombre: "Sprout", rareza: "Mítico" },
+  { nombre: "Byron", rareza: "Mítico" },
+  { nombre: "Squeak", rareza: "Mítico" },
+  { nombre: "Lou", rareza: "Mítico" },
+  { nombre: "Ruffs", rareza: "Mítico" },
+  { nombre: "Buzz", rareza: "Mítico" },
+  { nombre: "Fang", rareza: "Mítico" },
+  { nombre: "Eve", rareza: "Mítico" },
+  { nombre: "Janet", rareza: "Mítico" },
+  { nombre: "Otis", rareza: "Mítico" },
+  { nombre: "Buster", rareza: "Mítico" },
+  { nombre: "Gray", rareza: "Mítico" },
+  { nombre: "R-T", rareza: "Mítico" },
+  { nombre: "Willow", rareza: "Mítico" },
+  { nombre: "Doug", rareza: "Mítico" },
+  { nombre: "Chuck", rareza: "Mítico" },
+  { nombre: "Charlie", rareza: "Mítico" },
+  { nombre: "Mico", rareza: "Mítico" },
+  { nombre: "Melodie", rareza: "Mítico" },
+  { nombre: "Lily", rareza: "Mítico" },
+  { nombre: "Clancy", rareza: "Mítico" },
+  { nombre: "Moe", rareza: "Mítico" },
+  { nombre: "Juju", rareza: "Mítico" },
+  { nombre: "Ollie", rareza: "Mítico" },
+  { nombre: "Lumi", rareza: "Mítico" },
+  { nombre: "Finx", rareza: "Mítico" },
+  { nombre: "Jae-Yong", rareza: "Mítico" },
+  { nombre: "Alli", rareza: "Mítico" },
+  { nombre: "Mina", rareza: "Mítico" },
+  { nombre: "Ziggy", rareza: "Mítico" },
+  { nombre: "Gigi", rareza: "Mítico" },
+
+  { nombre: "Spike", rareza: "Legendario" },
+  { nombre: "Crow", rareza: "Legendario" },
+  { nombre: "Leon", rareza: "Legendario" },
+  { nombre: "Sandy", rareza: "Legendario" },
+  { nombre: "Amber", rareza: "Legendario" },
+  { nombre: "Meg", rareza: "Legendario" },
+  { nombre: "Surge", rareza: "Legendario" },
+  { nombre: "Chester", rareza: "Legendario" },
+  { nombre: "Cordelius", rareza: "Legendario" },
+  { nombre: "Kit", rareza: "Legendario" },
+  { nombre: "Draco", rareza: "Legendario" },
+  { nombre: "Kenji", rareza: "Legendario" },
+  { nombre: "Buzz Lightyear", rareza: "Legendario" }, 
+
+  { nombre: "Kaze", rareza: "Ultralegendario" },
+
+  
+];
+
+    const rarezaMap = {
+      'comun': 'Común', 'común': 'Común',
+      'especial': 'Especial',
+      'superespecial': 'Superespecial', 'super especial': 'Superespecial',
+      'epico': 'Épico', 'épico': 'Épico',
+      'mitico': 'Mítico', 'mítico': 'Mítico', 'mítico ': 'Mítico',
+      'legendario': 'Legendario',
+      'ultralegendario': 'Ultralegendario', 'ultra legendario': 'Ultralegendario'
+    };
+
+    function normalizeRareza(r){
+      const key = (r||'').toString().trim().toLowerCase();
+      return rarezaMap[key] || r;
+    }
+
+    (function normalizeAndDeduplicate(){
+      const seen = new Map();
+      const result = [];
+      for (const b of brawlers) {
+        const nombre = (b.nombre || '').toString().trim();
+        if (!nombre) continue;
+        const key = nombre.toLowerCase();
+        if (seen.has(key)) {
+          const prev = seen.get(key);
+          if (!prev.rareza && b.rareza) prev.rareza = normalizeRareza(b.rareza);
+          continue;
+        }
+        const item = {
+          nombre: nombre,
+          rareza: normalizeRareza(b.rareza || 'Común'),
+          tipo: b.tipo || ''
+        };
+        seen.set(key, item);
+        result.push(item);
+      }
+      brawlers = result;
+    })();
+
+    function normalizeToFilename(name){
+      const mapAccents = { 'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U','ñ':'n','Ñ':'N' };
+      let s = name.split('').map(ch => mapAccents[ch] || ch).join('');
+      s = s.replace(/[^0-9A-Za-z\s]/g, ' '); 
+      const parts = s.trim().split(/\s+/).filter(Boolean);
+      const joined = parts.map(p => p.charAt(0).toUpperCase()+p.slice(1)).join('');
+      return `../img/${joined}.png`;
+    }
+
+    function getUniqueRarities(list){
+      const set = new Set(list.map(b => b.rareza));
+      const order = ["Común","Especial","Superespecial","Épico","Mítico","Legendario","Ultralegendario"];
+      const rarities = Array.from(set);
+      rarities.sort((a,b)=>{
+        const ia = order.indexOf(a) === -1 ? 999 : order.indexOf(a);
+        const ib = order.indexOf(b) === -1 ? 999 : order.indexOf(b);
+        return ia - ib;
+      });
+      return ['Todos', ...rarities];
+    }
+
+    // RENDER
+    const filtersContainer = document.getElementById('filters');
+    const grid = document.getElementById('brawlersGrid');
+    const searchInput = document.getElementById('searchInput');
+
+    let activeFilter = 'Todos';
+    let searchTerm = '';
+
+    function renderFilterPills(){
+      filtersContainer.innerHTML = '';
+      const rarities = getUniqueRarities(brawlers);
+      rarities.forEach(r => {
+        const span = document.createElement('span');
+        span.className = 'filter-pill' + (r === activeFilter ? ' active' : '');
+        span.textContent = r;
+        span.dataset.rarity = r;
+        span.addEventListener('click', ()=> {
+          activeFilter = r;
+          renderFilterPills();
+          renderGrid();
+        });
+        filtersContainer.appendChild(span);
+      });
+    }
+
+    function renderGrid(){
+      grid.innerHTML = '';
+      const term = searchTerm.trim().toLowerCase();
+
+      const filtered = brawlers.filter(b => {
+        if(activeFilter !== 'Todos' && b.rareza !== activeFilter) return false;
+        if(term && !b.nombre.toLowerCase().includes(term)) return false;
+        return true;
+      });
+
+      if(filtered.length === 0){
+        grid.innerHTML = `<div style="color:#ccc;padding:20px">No se encontraron brawlers.</div>`;
+        return;
+      }
+
+      filtered.forEach(b => {
+        const imgPath = normalizeToFilename(b.nombre);
+        const card = document.createElement('div');
+        card.className = 'brawler-item';
+
+        const inner = document.createElement('div');
+
+        // NUEVO: imagen sin texto superpuesto, nombre arriba de la rareza
+        inner.innerHTML = `
+          <div class="brawler-avatar" aria-hidden="true">
+            <img src="${imgPath}" alt="${b.nombre}" 
+              onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22120%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%232b2b3a%22 rx=%2212%22/></svg>'" />
+          </div>
+
+          <div class="brawler-name" aria-label="Nombre del brawler">${b.nombre}</div>
+
+          <div class="brawler-rarity rare-${b.rareza.replace(/\s+/g,'')}" aria-label="Rareza">
+            ${b.rareza}
+          </div>
+        `;
+        card.appendChild(inner);
+
+        // efecto click pequeño (opcional: aquí podrías abrir detalle)
+        card.addEventListener('click', ()=> {
+          card.style.transform = 'scale(0.99)';
+          setTimeout(()=> card.style.transform = '',120);
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    // BUSQUEDA por NOMBRE
+    searchInput.addEventListener('input', e => {
+      searchTerm = e.target.value;
+      renderGrid();
+    });
+
+    // Inicializar
+    renderFilterPills();
+    renderGrid();
+
+  </script>
+</body>
+</html>
